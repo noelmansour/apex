@@ -390,14 +390,14 @@ func (p *Project) CreateOrUpdateAlias(alias, version string) error {
 				version, err := fn.GetVersionFromAlias(version)
 				if err != nil {
 					err = fmt.Errorf("function %s: %s", fn.Name, err)
+					errs <- err
 				}
 
 				err = fn.CreateOrUpdateAlias(alias, version)
 				if err != nil {
 					err = fmt.Errorf("function %s: %s", fn.Name, err)
+					errs <- err
 				}
-
-				errs <- err
 			}()
 		}
 
