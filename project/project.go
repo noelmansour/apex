@@ -391,6 +391,7 @@ func (p *Project) CreateOrUpdateAlias(alias, version string) error {
 				if err != nil {
 					err = fmt.Errorf("function %s: %s", fn.Name, err)
 					errs <- err
+					return;
 				}
 
 				err = fn.CreateOrUpdateAlias(alias, version)
