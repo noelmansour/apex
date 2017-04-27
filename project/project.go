@@ -407,9 +407,7 @@ func (p *Project) CreateOrUpdateAlias(alias, version string) error {
 	}()
 
 	for err := range errs {
-		if err != nil {
-			return err
-		}
+		return err
 	}
 
 	return nil
