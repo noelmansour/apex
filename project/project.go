@@ -377,7 +377,7 @@ func (p *Project) CreateOrUpdateAlias(alias, version string) error {
 	p.Log.Debugf("updating %d functions", len(p.Functions))
 
 	sem := make(semaphore.Semaphore, p.Concurrency)
-	errs := make(chan error)
+	errs := make(chan error, len(p.Functions))
 
 	go func() {
 		for _, fn := range p.Functions {
@@ -406,11 +406,7 @@ func (p *Project) CreateOrUpdateAlias(alias, version string) error {
 		close(errs)
 	}()
 
-	for err := range errs {
-		return err
-	}
-
-	return nil
+	return <-errs
 }
 
 // name returns the computed name for `fn`, using the nameTemplate.
